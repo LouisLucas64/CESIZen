@@ -1,0 +1,70 @@
+﻿@model List<CESIZenModel.Entities.Emotion>
+@{
+    ViewData["Title"] = "Gestion des émotions";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-sm border-0">
+        <div class="card-header text-white" style="background-color: #286291;">
+            <h3 class="mb-0">Gestion des émotions</h3>
+        </div>
+        <div class="card-body">
+
+            <div class="d-flex justify-content-end mb-3">
+                <a asp-action="AjouterEmotion" class="btn text-white" style="background-color: #286291;">
+                    Ajouter une émotion
+                </a>
+            </div>
+
+            <!-- Affichage en tableau sur écran moyen et large -->
+            <div class="d-none d-md-block">
+                <table class="table table-hover table-bordered align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width: 20%;">Niveau 1</th>
+                            <th style="width: 20%;">Niveau 2</th>
+                            <th>Description</th>
+                            <th style="width: 200px;" class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var emotion in Model)
+                        {
+                            <tr>
+                                <td>@emotion.Nom_Emotion_Niveau1</td>
+                                <td>@emotion.Nom_Emotion_Niveau2</td>
+                                <td>@emotion.Description</td>
+                                <td class="text-center">
+                                    <div class="d-flex justify-content-center gap-2">
+                                        <a asp-action="ModifierEmotion" asp-route-id="@emotion.Id" class="btn btn-sm btn-outline-primary">Modifier</a>
+                                        <a asp-action="SupprimerEmotion" asp-route-id="@emotion.Id" class="btn btn-sm btn-outline-danger">Supprimer</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Affichage en cartes sur mobile -->
+            <div class="d-block d-md-none">
+                @foreach (var emotion in Model)
+                {
+                    <div class="card mb-3 border">
+                        <div class="card-body">
+                            <h5 class="card-title">@emotion.Nom_Emotion_Niveau1 - @emotion.Nom_Emotion_Niveau2</h5>
+                            <p class="card-text">
+                                <strong>Description :</strong> @emotion.Description
+                            </p>
+                            <div class="d-flex justify-content-end">
+                                <a asp-action="ModifierEmotion" asp-route-id="@emotion.Id" class="btn btn-sm btn-outline-primary me-2">Modifier</a>
+                                <a asp-action="SupprimerEmotion" asp-route-id="@emotion.Id" class="btn btn-sm btn-outline-danger">Supprimer</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
+</div>

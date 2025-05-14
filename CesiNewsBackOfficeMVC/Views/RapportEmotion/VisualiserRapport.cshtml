@@ -1,0 +1,76 @@
+﻿@model CESIZenModel.Entities.RapportEmotion
+
+@{
+    ViewData["Title"] = "Rapport d’émotion";
+    var couleurBleue = "#286291";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-header text-white text-center rounded-top-4" style="background-color: @couleurBleue;">
+                    <h2 class="mb-0">Ton Rapport Émotionnel</h2>
+                </div>
+                <div class="card-body bg-light rounded-bottom-4 px-5 py-4">
+
+                    <div class="mb-4 text-center">
+                        <span class="badge fs-6 text-white px-3 py-2" style="background-color: @couleurBleue;">Période du rapport</span>
+                        <div class="fs-5 fw-semibold mt-2">@Model.Date_Debut.ToShortDateString() → @Model.Date_Fin.ToShortDateString()</div>
+                    </div>
+
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="p-4 bg-white rounded shadow-sm border-start border-5" style="border-color: #dee2e6;">
+                                <h5 class="fw-bold mb-2">Émotion Dominante Niveau 1</h5>
+                                <p class="mb-0 fs-5">@Model.Emotion_Predominante_Niv1</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="p-4 bg-white rounded shadow-sm border-start border-5" style="border-color: #dee2e6;">
+                                <h5 class="fw-bold mb-2">Émotion Dominante Niveau 2</h5>
+                                <p class="mb-0 fs-5">@Model.Emotion_Predominante_Niv2</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="p-4 bg-white rounded shadow-sm border-start border-5" style="border-color: #dee2e6;">
+                                <h5 class="fw-bold mb-2">Émotion la moins fréquente</h5>
+                                <p class="mb-0 fs-5">@Model.Emotion_Moins_Frequente</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="p-4 bg-white rounded shadow-sm border-start border-5" style="border-color: #dee2e6;">
+                                <h5 class="fw-bold mb-2">Moyenne d’intensité</h5>
+                                <p class="mb-0 fs-5">@Model.Moyenne_Intensite</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="p-4 bg-white rounded shadow-sm border-start border-5" style="border-color: #dee2e6;">
+                                <h5 class="fw-bold mb-2">Total d’entrées</h5>
+                                <p class="mb-0 fs-5">@Model.Total_Tracker</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="p-4 bg-white rounded shadow-sm border-start border-5" style="border-color: #dee2e6;">
+                                <h5 class="fw-bold mb-2">Généré le</h5>
+                                <p class="mb-0 fs-5">@Model.Date_Generation.ToShortDateString()</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-5">
+                        <a asp-action="GenererRapport" class="btn btn-lg text-white px-5 py-2 rounded-pill shadow-sm" style="background-color: @couleurBleue;">
+                            Générer un autre rapport
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

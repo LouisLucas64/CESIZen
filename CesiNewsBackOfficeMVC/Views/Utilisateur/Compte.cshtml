@@ -1,0 +1,39 @@
+﻿@model CESIZenModel.Entities.Utilisateur
+
+@{
+    ViewData["Title"] = "Mon Compte";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-header text-white" style="background-color: #286291;">
+                    <h3 class="mb-0">Mon Compte</h3>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <strong>Pseudo :</strong> @Model.Pseudo
+                    </div>
+                    <div class="mb-3">
+                        <strong>Nom :</strong> @Model.Nom
+                    </div>
+                    <div class="mb-3">
+                        <strong>Prénom :</strong> @Model.Prenom
+                    </div>
+                    <div class="mb-3">
+                        <strong>Email :</strong> @Model.Mail
+                    </div>
+                    <div class="mb-4">
+                        <strong>Téléphone :</strong> @Model.Tel
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2">
+                        <a asp-action="ModifierCompte" asp-route-id="@Model.Id" class="btn btn-outline-primary">Modifier mes infos</a>
+                        <a asp-action="ModifierMdp" class="btn btn-outline-warning">Changer le mot de passe</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

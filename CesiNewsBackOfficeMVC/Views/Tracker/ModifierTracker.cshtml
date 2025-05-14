@@ -1,0 +1,63 @@
+﻿@model CESIZenModel.Entities.Tracker
+
+@{
+    ViewData["Title"] = "Modifier un tracker";
+    var emotions = ViewData["EmotionsSelect"] as SelectList;
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-header text-white" style="background-color: #286291;">
+                    <h3 class="mb-0">Modifier une entrée du journal</h3>
+                </div>
+                <div class="card-body">
+                    @if (ViewData["Message"] != null)
+                    {
+                        <div class="alert alert-info">@ViewData["Message"]</div>
+                    }
+                    <form asp-action="ModifierTracker" method="post">
+                        <input type="hidden" asp-for="Id" />
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Titre" class="form-label fw-bold">Modifiez le titre de votre resenti'</label>
+                            <input asp-for="Titre" class="form-control" />
+                            <span asp-validation-for="Titre" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label class="form-label fw-bold">Émotion (Niveau 1 - Niveau 2)</label>
+                            <select asp-for="EmotionId" class="form-control" asp-items="emotions"></select>
+                            <span asp-validation-for="EmotionId" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label class="form-label fw-bold">Remarques et conseils</label>
+                            <textarea class="form-control bg-light" readonly>@Model.Description</textarea>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Note_Intensite" class="form-label fw-bold">Modifiez l'intensité de votre émotion sur 10</label>
+                            <input asp-for="Note_Intensite" type="number" class="form-control" min="1" max="10" />
+                            <span asp-validation-for="Note_Intensite" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label asp-for="Commentaire" class="form-label fw-bold">Modifiez votre note</label>
+                            <textarea asp-for="Commentaire" class="form-control" rows="4"></textarea>
+                            <span asp-validation-for="Commentaire" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn text-white" style="background-color: #286291;">Enregistrer</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<partial name="_ValidationScriptsPartial" />

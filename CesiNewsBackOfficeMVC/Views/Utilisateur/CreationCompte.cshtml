@@ -1,0 +1,57 @@
+﻿@model CESIZenModel.Entities.Utilisateur
+
+@{
+    ViewData["Title"] = "Création de compte";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h2 class="text-center mb-4" style="color: #286291;">Créer un compte</h2>
+
+                    @if (ViewData["Message"] != null)
+                    {
+                        <div class="alert alert-info">@ViewData["Message"]</div>
+                    }
+                    <form asp-action="CreationCompte" method="post">
+                        <div class="form-group mb-3">
+                            <label asp-for="Pseudo"></label>
+                            <input asp-for="Pseudo" class="form-control" />
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Mdp">Mot de passe</label>
+                            <input asp-for="Mdp" type="password" class="form-control" />
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Nom"></label>
+                            <input asp-for="Nom" class="form-control" />
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Prenom"></label>
+                            <input asp-for="Prenom" class="form-control" />
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Mail"></label>
+                            <input asp-for="Mail" class="form-control" />
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label asp-for="Tel"></label>
+                            <input asp-for="Tel" class="form-control" />
+                        </div>
+
+                        <div class="text-end">
+                            <button type="submit" class="btn" style="background-color: #286291; color: white;">Créer le compte</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

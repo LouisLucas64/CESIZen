@@ -1,0 +1,32 @@
+﻿@model DateTime
+
+@{
+    ViewData["Title"] = "Générer un rapport d’émotion";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-header text-white" style="background-color: #286291;">
+                    <h3 class="mb-0">Générer un rapport d’émotion</h3>
+                </div>
+                <div class="card-body">
+                    <form asp-action="GenererRapport" method="post">
+                        <div class="form-group mb-3">
+                            <label for="dateDebut" class="form-label fw-bold">Date de début</label>
+                            <input type="date" name="dateDebut" class="form-control" required />
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="dateFin" class="form-label fw-bold">Date de fin</label>
+                            <input type="date" name="dateFin" class="form-control" required />
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn text-white" style="background-color: #286291;">Générer</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

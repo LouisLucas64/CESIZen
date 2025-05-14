@@ -1,0 +1,134 @@
+﻿@{
+    ViewData["Title"] = "Conseils et Prévention - Santé Mentale";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .contenu-page {
+        padding: 40px;
+        background-color: white;
+    }
+
+    .article-container {
+        border-radius: 18px;
+        padding: 30px;
+        margin-bottom: 40px;
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s ease;
+    }
+
+        .article-container:hover {
+            transform: translateY(-5px);
+        }
+
+        .article-container h2 {
+            font-weight: bold;
+            margin-bottom: 20px;
+            font-size: 1.6rem;
+        }
+
+        .article-container p {
+            line-height: 1.8;
+            font-size: 1.1rem;
+            text-align: justify;
+        }
+
+    .page-title {
+        text-align: center;
+        margin-bottom: 60px;
+        color: #1d3557;
+        font-weight: bold;
+        font-size: 2.2rem;
+    }
+
+    /* Couleurs personnalisées pour chaque section */
+    .bg-mental {
+        background-color: #dff6fd;
+        border-left: 8px solid #00acc1;
+    }
+
+    .bg-signes {
+        background-color: #fff1db;
+        border-left: 8px solid #fb8c00;
+    }
+
+    .bg-conseils {
+        background-color: #e4fbe0;
+        border-left: 8px solid #43a047;
+    }
+
+    .bg-soutien {
+        background-color: #fde7f2;
+        border-left: 8px solid #d81b60;
+    }
+
+    .bg-ressources {
+        background-color: #f0ebfa;
+        border-left: 8px solid #7e57c2;
+    }
+</style>
+
+<div class="contenu-page container">
+    <h1 class="page-title">Comprendre, Prévenir et Prendre Soin de sa Santé Mentale</h1>
+
+    <div class="article-container bg-mental">
+        <h2>Qu'est-ce que la santé mentale ?</h2>
+        <p>
+            La santé mentale englobe notre bien-être émotionnel, psychologique et social. Elle affecte la façon dont nous pensons, ressentons les choses,
+            agissons et interagissons avec les autres. Elle détermine également notre capacité à faire face au stress, à surmonter les défis, à établir des relations et à prendre des décisions.
+            Une bonne santé mentale ne signifie pas l’absence de troubles, mais la capacité à vivre avec équilibre, lucidité et résilience.
+        </p>
+        <p>
+            Dans un monde en perpétuel mouvement, marqué par les pressions sociales, professionnelles et personnelles, préserver sa santé mentale est devenu un enjeu essentiel.
+            C’est pourquoi il est nécessaire d’en parler ouvertement et de mettre en place des actions concrètes de prévention et de soutien.
+        </p>
+    </div>
+
+    <div class="article-container bg-signes">
+        <h2>Identifier les signes d’alerte</h2>
+        <p>
+            Les troubles de santé mentale peuvent se manifester par une multitude de symptômes : anxiété constante, perte d'intérêt pour les activités habituelles,
+            irritabilité, troubles du sommeil, sentiment de vide, isolement social ou encore idées noires. Ces signes doivent être pris au sérieux.
+        </p>
+        <p>
+            L’un des premiers pas est de reconnaître ces symptômes en soi ou chez un proche. Une détection précoce permet une prise en charge plus efficace
+            et limite les risques de chronicité. Il est donc important de rester attentif à ses émotions, ses comportements et son niveau d’énergie au quotidien.
+        </p>
+    </div>
+
+    <div class="article-container bg-conseils">
+        <h2>Conseils pour préserver sa santé mentale</h2>
+        <p>
+            De nombreux gestes simples peuvent contribuer à maintenir un bon équilibre mental. Dormir suffisamment, avoir une alimentation saine,
+            pratiquer une activité physique régulière, limiter les écrans et les réseaux sociaux sont des bases solides.
+        </p>
+        <p>
+            Il est aussi bénéfique de pratiquer des techniques de relaxation telles que la respiration profonde, la méditation ou la cohérence cardiaque.
+            Prendre du temps pour soi, s’autoriser à ralentir, se fixer des limites saines dans la vie professionnelle et personnelle sont autant de leviers
+            pour retrouver sérénité et clarté mentale.
+        </p>
+    </div>
+
+    <div class="article-container bg-soutien">
+        <h2>Ne pas rester seul(e)</h2>
+        <p>
+            Il est essentiel de briser le silence et de parler de ce que l’on ressent. La santé mentale est encore taboue dans certaines cultures ou environnements,
+            mais chercher du soutien est un acte de force et non de faiblesse. Parler à un ami, à un proche, à un médecin ou à un professionnel de la santé mentale peut faire toute la différence.
+        </p>
+        <p>
+            Aujourd’hui, de nombreuses structures existent : lignes d’écoute, psychologues, groupes de parole, applications de bien-être…
+            Ne pas rester isolé est souvent le premier pas vers un mieux-être durable.
+        </p>
+    </div>
+
+    <div class="article-container bg-ressources">
+        <h2>Ressources et accompagnement</h2>
+        <p>
+            Sur ce site, vous trouverez des outils pour vous aider à prendre soin de vous : un journal de bord émotionnel pour suivre vos ressentis au quotidien, avec des conseils et encouragements suivant votre état d'esprit. Tout est conçu pour vous offrir un espace bienveillant et utile.
+        </p>
+        <p>
+            N’oubliez pas : vous avez le droit de ne pas aller bien, mais vous avez aussi les moyens de retrouver l’équilibre.
+            Votre santé mentale mérite toute votre attention.
+        </p>
+    </div>
+</div>

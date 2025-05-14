@@ -1,0 +1,78 @@
+﻿@model List<CESIZenModel.Entities.Utilisateur>
+
+@{
+    ViewData["Title"] = "Gestion des utilisateurs";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-sm border-0">
+        <div class="card-header text-white" style="background-color: #286291;">
+            <h3 class="mb-0">Gestion des utilisateurs</h3>
+        </div>
+        <div class="card-body">
+
+            <div class="d-flex justify-content-end mb-3">
+                <a asp-action="CreationCompte" class="btn text-white" style="background-color: #286291;">
+                    Ajouter un utilisateur
+                </a>
+            </div>
+
+            @* Affichage en tableau sur écran large *@
+            <div class="d-none d-md-block">
+                <table class="table table-hover table-bordered align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Pseudo</th>
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Email</th>
+                            <th>Téléphone</th>
+                            <th>Rôle</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var utilisateur in Model)
+                        {
+                            <tr>
+                                <td>@utilisateur.Pseudo</td>
+                                <td>@utilisateur.Nom</td>
+                                <td>@utilisateur.Prenom</td>
+                                <td>@utilisateur.Mail</td>
+                                <td>@utilisateur.Tel</td>
+                                <td>@utilisateur.Role</td>
+                                <td class="text-center">
+                                    <a asp-action="ModifierCompte" asp-route-id="@utilisateur.Id" class="btn btn-sm btn-outline-primary me-2">Modifier</a>
+                                    <a asp-action="SupprimerCompte" asp-route-id="@utilisateur.Id" class="btn btn-sm btn-outline-danger">Supprimer</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            @* Affichage en cartes sur mobile *@
+            <div class="d-block d-md-none">
+                @foreach (var utilisateur in Model)
+                {
+                    <div class="card mb-3 border">
+                        <div class="card-body">
+                            <h5 class="card-title">@utilisateur.Pseudo (@utilisateur.Role)</h5>
+                            <p class="card-text">
+                                <strong>Nom :</strong> @utilisateur.Nom<br />
+                                <strong>Prénom :</strong> @utilisateur.Prenom<br />
+                                <strong>Email :</strong> @utilisateur.Mail<br />
+                                <strong>Téléphone :</strong> @utilisateur.Tel
+                            </p>
+                            <div class="d-flex justify-content-end">
+                                <a asp-action="ModifierCompte" asp-route-id="@utilisateur.Id" class="btn btn-sm btn-outline-primary me-2">Modifier</a>
+                                <a asp-action="SupprimerCompte" asp-route-id="@utilisateur.Id" class="btn btn-sm btn-outline-danger">Supprimer</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
+</div>

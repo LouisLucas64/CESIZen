@@ -1,0 +1,73 @@
+﻿@model CESIZenModel.Entities.Tracker
+
+@{
+    ViewData["Title"] = "Comment vous sentez-vous aujourd'hui ?";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-header text-white" style="background-color: #286291;">
+                    <h3 class="mb-0">Ajouter un Tracker d'émotions</h3>
+                </div>
+                <div class="card-body">
+                    @if (ViewData["Message"] != null)
+                    {
+                        <div class="alert alert-info">@ViewData["Message"]</div>
+                    }
+                    <form asp-action="AjouterTracker" method="post">
+                        @Html.AntiForgeryToken()
+                        <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Titre" class="form-label fw-bold">Ajoutez un titre à votre ressenti</label>
+                            <input asp-for="Titre" class="form-control" />
+                            <span asp-validation-for="Titre" class="text-danger"></span>
+                            @if (ViewData["MessageTitre"] != null)
+                            {
+                                <span class="text-danger">@ViewData["MessageTitre"]</span>
+                            }
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="EmotionId" class="form-label fw-bold">Émotion (Niveau 1 - Niveau 2)</label>
+                            <select asp-for="EmotionId" class="form-control" asp-items="@(ViewData["EmotionsSelect"] as SelectList)">
+                                <option value="">Sélectionner une émotion</option>
+                            </select>
+                            <span asp-validation-for="EmotionId" class="text-danger"></span>
+                            @if (ViewData["MessageEmotion"] != null)
+                            {
+                                <span class="text-danger">@ViewData["MessageEmotion"]</span>
+                            }
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Note_Intensite" class="form-label fw-bold">Notez l'intensité de votre émotion sur 10</label>
+                            <input asp-for="Note_Intensite" type="number" class="form-control" min="1" max="10" />
+                            <span asp-validation-for="Note_Intensite" class="text-danger"></span>
+                            @if (ViewData["MessageIntensite"] != null)
+                            {
+                                <span class="text-danger">@ViewData["MessageIntensite"]</span>
+                            }
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label asp-for="Commentaire" class="form-label fw-bold">Écrivez une note pour vous</label>
+                            <textarea asp-for="Commentaire" class="form-control" rows="4"></textarea>
+                            <span asp-validation-for="Commentaire" class="text-danger"></span>
+                            @if (ViewData["MessageCommentaire"] != null)
+                            {
+                                <span class="text-danger">@ViewData["MessageCommentaire"]</span>
+                            }
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn text-white" style="background-color: #286291;">Ajouter</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,60 @@
+﻿@model IEnumerable<CESIZenModel.Entities.Tracker>
+
+@{
+    ViewData["Title"] = "Journal de Bord";
+}
+
+<h2 class="mb-4">Journal de Bord</h2>
+
+<div class="d-flex justify-content-between mb-4">
+    <a asp-controller="RapportEmotion" asp-action="GenererRapport" class="btn btn-outline-success">
+        Générer un rapport d'émotions
+    </a>
+    <a asp-action="AjouterTracker" class="btn text-white" style="background-color: #286291;">
+        Ajouter un tracker
+    </a>
+</div>
+
+<div class="row">
+    @foreach (var tracker in Model)
+    {
+        var bgColor = tracker.Emotion_Niveau1 switch
+        {
+            "Joie" => "#d4edda",      // vert clair
+            "Colère" => "#f8d7da",    // rouge clair
+            "Peur" => "#d1ecf1",      // bleu clair
+            "Tristesse" => "#e2e3e5", // gris clair
+            "Surprise" => "#fff3cd",  // jaune clair
+            "Dégoût" => "#f3e6f5",    // violet clair
+            _ => "#f8f9fa"            // gris neutre
+        };
+
+        <div class="col-md-6 mb-4">
+            <div class="card shadow" style="background-color:@bgColor;">
+                <div class="card-body">
+                    <h4 class="card-title fw-bold" style="color: #286291;">@tracker.Titre</h4>
+                    <p><strong>Date :</strong> @tracker.Date_Creation.ToShortDateString()</p>
+                    <p><strong>Émotion principale :</strong> @tracker.Emotion_Niveau1</p>
+                    <p><strong>Émotion secondaire :</strong> @tracker.Emotion_Niveau2</p>
+                    <p><strong>Intensité :</strong> @tracker.Note_Intensite</p>
+
+                    <div class="p-3 mt-3 rounded" style="border: 3px solid #286291; background-color: rgba(40, 98, 145, 0.05);">
+                        <p class="mb-1 fw-semibold" style="color: #286291;">Remarques et conseils :</p>
+                        <p class="fst-italic mb-0">@tracker.Description</p>
+                    </div>
+
+                    <p class="mt-3"><strong>Commentaire :</strong> @tracker.Commentaire</p>
+
+                    <div class="d-flex justify-content-end gap-2 mt-3">
+                        <a asp-action="ModifierTracker" asp-route-id="@tracker.Id" class="btn btn-sm btn-outline-primary">
+                            Modifier
+                        </a>
+                        <form asp-action="SupprimerTracker" asp-route-id="@tracker.Id" method="post" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce tracker ?');">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Supprimer</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
