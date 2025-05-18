@@ -3,45 +3,108 @@
 }
 
 <style>
-    
+    .header-image {
+        background-image: url('/images/AccueilZen.png');
+        background-size: cover;
+        background-position: center;
+        height: 80vh;
+        width: 100vw;
+        margin-left: calc(-50vw + 50%);
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .header-overlay {
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 40px;
+        border-radius: 20px;
+        text-align: center;
+        color: white;
+    }
+
+    .header-title {
+        font-size: 3rem;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .header-subtitle {
+        font-size: 1.3rem;
+    }
+
     .info-box {
-        border-left: 4px solid #286291; 
-        background-color: #f8f9fa;
-        padding: 20px;
-        border-radius: 10px;
+        padding: 25px;
+        border-radius: 20px;
         margin-bottom: 30px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        color: #333;
     }
 
     .info-title {
-        color: #286291;
-        font-weight: 600;
-        font-size: 1.4rem;
+        font-weight: 700;
+        font-size: 1.5rem;
         margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+    }
+
+    .info-icon {
+        font-size: 1.6rem;
+        margin-right: 10px;
     }
 
     .info-text {
-        color: #333;
-        font-size: 1.05rem;
+        font-size: 1.1rem;
+        line-height: 1.6;
+    }
+
+    .objectif {
+        background-color: #D6EAF8;
+        border-left: 6px solid #3498DB;
+    }
+
+    .fonctionnement {
+        background-color: #D5F5E3;
+        border-left: 6px solid #27AE60;
+    }
+
+    .modules {
+        background-color: #FCF3CF;
+        border-left: 6px solid #F1C40F;
+    }
+
+    .securite {
+        background-color: #FADBD8;
+        border-left: 6px solid #E74C3C;
     }
 </style>
 
-<div class="container mt-5">
-    <div class="text-center mb-5">
-        <h1 class="display-4" style="color: #286291; font-weight: bold;">Bienvenue sur CESIZen</h1>
-        <p class="lead">Une plateforme intuitive pour comprendre, suivre et améliorer votre bien-être émotionnel.</p>
+<div class="w-100">
+    <div class="header-image">
+        <div class="header-overlay">
+            <h1 class="header-title">Bienvenue sur CESIZen</h1>
+            <p class="header-subtitle">Une plateforme intuitive pour comprendre, suivre et améliorer votre bien-être émotionnel.</p>
+        </div>
     </div>
+</div>
 
-    <div class="info-box">
-        <div class="info-title">Objectif de la plateforme</div>
+<div class="container mt-5">
+    <div class="info-box objectif">
+        <div class="info-title">
+            <span class="info-icon">🎯</span> Objectif de la plateforme
+        </div>
         <div class="info-text">
             CESIZen vous accompagne dans l’analyse de vos ressentis quotidiens. En identifiant vos émotions dominantes,
             vous prenez conscience de votre état émotionnel sur la durée, pour mieux y répondre.
         </div>
     </div>
 
-    <div class="info-box">
-        <div class="info-title">Fonctionnement</div>
+    <div class="info-box fonctionnement">
+        <div class="info-title">
+            <span class="info-icon">⚙️</span> Fonctionnement
+        </div>
         <div class="info-text">
             Après création de votre compte, vous pourrez renseigner vos émotions chaque jour via un tracker personnalisé.
             Ces données sont utilisées pour générer des rapports synthétiques, vous aidant à visualiser votre équilibre émotionnel
@@ -49,15 +112,19 @@
         </div>
     </div>
 
-    <div class="info-box">
-        <div class="info-title">Modules complémentaires</div>
+    <div class="info-box modules">
+        <div class="info-title">
+            <span class="info-icon">📚</span> Modules complémentaires
+        </div>
         <div class="info-text">
-            Vous pourrez également accéder à divers contenus utiles sur la santé mentale, avec de la de prévention, des conseils et d'autres informations autour de votre bien être'.
+            Vous pourrez également accéder à divers contenus utiles sur la santé mentale, avec de la prévention, des conseils et d'autres informations autour de votre bien-être.
         </div>
     </div>
 
-    <div class="info-box">
-        <div class="info-title">Sécurité et confidentialité</div>
+    <div class="info-box securite">
+        <div class="info-title">
+            <span class="info-icon">🔒</span> Sécurité et confidentialité
+        </div>
         <div class="info-text">
             Vos informations sont strictement personnelles. Elles ne sont ni partagées, ni utilisées à d’autres fins.
             L’accès à vos données est protégé par un système d’authentification et votre mot de passe n’est connu que de vous.

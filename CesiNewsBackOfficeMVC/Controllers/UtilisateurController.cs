@@ -5,7 +5,6 @@ using CESIZenModel;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using CESIZenModel.Context;
 using AspNetCoreGeneratedDocument;
-//using CESIZenBackOfficeMVC.Helpers;
 
 namespace CESIZenBackOfficeMVC.Controllers
 {
@@ -163,6 +162,15 @@ namespace CESIZenBackOfficeMVC.Controllers
             if (!ModelState.IsValid)
             {
                 ViewData["Message"] = "Certains champs ne sont pas valides.";
+                return View(utilisateur);
+            }
+
+
+            bool emailExiste = await _context.Utilisateurs
+                .AnyAsync(u => u.Mail == utilisateur.Mail);
+            if (emailExiste)
+            {
+                ViewData["Message"] = "Cet email est déjà utilisé.";
                 return View(utilisateur);
             }
 

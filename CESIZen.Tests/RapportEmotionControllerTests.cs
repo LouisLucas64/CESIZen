@@ -28,7 +28,7 @@ public class RapportEmotionControllerTests
     [Fact]
     public async Task GenererRapport_AucunTracker_RetourneVueAvecMessage()
     {
-        // Arrange
+        
         var context = GetDbContextWithData();
         var controller = new RapportEmotionController(context);
 
@@ -40,7 +40,7 @@ public class RapportEmotionControllerTests
         var dateDebut = DateTime.Today.AddDays(-1);
         var dateFin = DateTime.Today;
 
-        // Act
+        
         var result = await controller.GenererRapport(dateDebut, dateFin) as ViewResult;
 
         // Assert
@@ -55,7 +55,7 @@ public class RapportEmotionControllerTests
     [Fact]
     public async Task GenererRapport_TrackersPresents_GenereRapportEtRetourneVue()
     {
-        // Arrange
+        
         var options = new DbContextOptionsBuilder<NewsDbContext>()
             .UseInMemoryDatabase(Guid.NewGuid().ToString())
             .Options;
@@ -80,10 +80,10 @@ public class RapportEmotionControllerTests
         httpContext.Session.SetInt32("UtilisateurId", 1);
         controller.ControllerContext.HttpContext = httpContext;
 
-        // Act
+        
         var result = await controller.GenererRapport(DateTime.Today, DateTime.Today) as ViewResult;
 
-        // Assert
+        
         Assert.NotNull(result);
         Assert.Equal("VisualiserRapport", result.ViewName);
         var rapport = result.Model as RapportEmotion;
@@ -96,7 +96,7 @@ public class RapportEmotionControllerTests
     [Fact]
     public async Task GenererRapport_UtilisateurNonConnecte_RedirectionVersConnexion()
     {
-        // Arrange
+     
         var context = new NewsDbContext(
             new DbContextOptionsBuilder<NewsDbContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString()).Options
@@ -104,13 +104,13 @@ public class RapportEmotionControllerTests
 
         var controller = new RapportEmotionController(context);
         var httpContext = new DefaultHttpContext();
-        httpContext.Session = new TestSession(); // PAS de SetInt32 → simulateur non connecté
+        httpContext.Session = new TestSession(); // PAS de SetInt32 alors simulateur non connecté
         controller.ControllerContext.HttpContext = httpContext;
 
-        // Act
+        
         var result = await controller.GenererRapport(DateTime.Today, DateTime.Today);
 
-        // Assert
+        
         var redirect = Assert.IsType<RedirectToActionResult>(result);
         Assert.Equal("Connexion", redirect.ActionName);
         Assert.Equal("Utilisateur", redirect.ControllerName);
@@ -121,7 +121,7 @@ public class RapportEmotionControllerTests
     [Fact]
     public async Task GenererRapport_VerifieEmotionPredominante()
     {
-        // Arrange
+        
         var options = new DbContextOptionsBuilder<NewsDbContext>()
             .UseInMemoryDatabase(Guid.NewGuid().ToString())
             .Options;
@@ -141,10 +141,10 @@ public class RapportEmotionControllerTests
         httpContext.Session.SetInt32("UtilisateurId", 1);
         controller.ControllerContext.HttpContext = httpContext;
 
-        // Act
+        
         var result = await controller.GenererRapport(DateTime.Today, DateTime.Today) as ViewResult;
 
-        // Assert
+       
         var rapport = result.Model as RapportEmotion;
         Assert.NotNull(rapport);
         Assert.Equal("Joie", rapport.Emotion_Predominante_Niv1);
@@ -157,7 +157,7 @@ public class RapportEmotionControllerTests
     [Fact]
     public async Task ModifierMDP_MotDePasseValide_ModifieEtRetourneVue()
     {
-        // Arrange
+        
         var options = new DbContextOptionsBuilder<NewsDbContext>()
             .UseInMemoryDatabase(Guid.NewGuid().ToString())
             .Options;
@@ -179,10 +179,10 @@ public class RapportEmotionControllerTests
         httpContext.Session.SetInt32("UtilisateurId", 1);
         controller.ControllerContext.HttpContext = httpContext;
 
-        // Act
+        
         var result = await controller.ModifierMDP("Ancien123", "Nouveau456", "Nouveau456") as ViewResult;
 
-        // Assert
+        
         Assert.NotNull(result);
         Assert.True(result.ViewData.ContainsKey("Message"));
         Assert.Equal("Mot de passe modifié avec succès.", result.ViewData["Message"]);
@@ -196,7 +196,7 @@ public class RapportEmotionControllerTests
     [Fact]
     public async Task ModifierMDP_AncienMotDePasseIncorrect_RetourneVueAvecMessageErreur()
     {
-        // Arrange
+        
         var options = new DbContextOptionsBuilder<NewsDbContext>()
             .UseInMemoryDatabase(Guid.NewGuid().ToString())
             .Options;
@@ -217,10 +217,10 @@ public class RapportEmotionControllerTests
         httpContext.Session.SetInt32("UtilisateurId", 1);
         controller.ControllerContext.HttpContext = httpContext;
 
-        // Act
+     
         var result = await controller.ModifierMDP("MauvaisMdp", "Nouveau456", "Nouveau456") as ViewResult;
 
-        // Assert
+        
         Assert.NotNull(result);
         Assert.True(result.ViewData.ContainsKey("Message"));
         Assert.Equal("Mot de passe actuel incorrect.", result.ViewData["Message"]);
@@ -231,7 +231,7 @@ public class RapportEmotionControllerTests
     [Fact]
     public async Task ModifierMDP_NouveauEtConfirmationDifferent_RetourneVueAvecMessageErreur()
     {
-        // Arrange
+        
         var options = new DbContextOptionsBuilder<NewsDbContext>()
             .UseInMemoryDatabase(Guid.NewGuid().ToString())
             .Options;
@@ -252,10 +252,10 @@ public class RapportEmotionControllerTests
         httpContext.Session.SetInt32("UtilisateurId", 1);
         controller.ControllerContext.HttpContext = httpContext;
 
-        // Act
+       
         var result = await controller.ModifierMDP("Ancien123", "Nouveau456", "MauvaiseConfirmation") as ViewResult;
 
-        // Assert
+       
         Assert.NotNull(result);
         Assert.True(result.ViewData.ContainsKey("Message"));
         Assert.Equal("Les mots de passe ne correspondent pas.", result.ViewData["Message"]);

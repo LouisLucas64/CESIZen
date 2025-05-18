@@ -112,7 +112,7 @@ namespace CESIZenBackOfficeMVC.Controllers
             var emotion = await _context.Emotions.FindAsync(tracker.EmotionId);
             if (emotion == null)
             {
-                ViewData["MessageEmotion"] = "L’émotion sélectionnée est invalide.";
+                ViewData["MessageEmotion"] = "Veuillez séléctionner une émotion.";
                 ViewData["EmotionsSelect"] = new SelectList(
                     _context.Emotions.Select(e => new
                     {
@@ -173,12 +173,47 @@ namespace CESIZenBackOfficeMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ModifierTracker(int id, Tracker tracker)
         {
+
             if (id != tracker.Id)
                 return NotFound();
+
+
 
             var utilisateurId = HttpContext.Session.GetInt32("UtilisateurId");
             if (utilisateurId == null)
                 return RedirectToAction("Connexion", "Utilisateur");
+
+
+            // Validation manuelle
+            bool champInvalide = false;
+
+            if (string.IsNullOrWhiteSpace(tracker.Titre))
+            {
+                ViewData["MessageTitre"] = "Le titre est requis.";
+                champInvalide = true;
+            }
+
+            if (string.IsNullOrWhiteSpace(tracker.Commentaire))
+            {
+                ViewData["MessageCommentaire"] = "Le commentaire est requis.";
+                champInvalide = true;
+            }
+
+            if (champInvalide)
+            {
+                var emotionsErreur = _context.Emotions
+                    .Select(e => new
+                    {
+                        Id = e.Id,
+                        Display = e.Nom_Emotion_Niveau1 + " - " + e.Nom_Emotion_Niveau2
+                    })
+                    .ToList();
+
+                ViewData["EmotionsSelect"] = new SelectList(emotionsErreur, "Id", "Display", tracker.EmotionId);
+                return View(tracker);
+            }
+
+
 
             if (ModelState.IsValid)
             {

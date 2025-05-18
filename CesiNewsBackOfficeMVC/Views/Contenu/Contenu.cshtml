@@ -41,7 +41,6 @@
         font-size: 2.2rem;
     }
 
-    /* Couleurs personnalisées pour chaque section */
     .bg-mental {
         background-color: #dff6fd;
         border-left: 8px solid #00acc1;
@@ -66,21 +65,78 @@
         background-color: #f0ebfa;
         border-left: 8px solid #7e57c2;
     }
+
+    .icon-section {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+        margin-bottom: 60px;
+    }
+
+    .icon-box {
+        background-color: #f9f9f9;
+        border-radius: 16px;
+        padding: 20px;
+        text-align: center;
+        width: 200px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        transition: transform 0.3s ease;
+    }
+
+        .icon-box:hover {
+            transform: translateY(-5px);
+        }
+
+        .icon-box i {
+            font-size: 40px;
+            color: #286291;
+            margin-bottom: 10px;
+        }
+
+    .video-container {
+        margin: 40px auto;
+        max-width: 800px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .ressource-links {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+        .ressource-links a {
+            display: inline-block;
+            margin: 10px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            background-color: #286291;
+            color: white;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+
+            .ressource-links a:hover {
+                background-color: #1d4c72;
+            }
 </style>
 
 <div class="contenu-page container">
     <h1 class="page-title">Comprendre, Prévenir et Prendre Soin de sa Santé Mentale</h1>
 
+    
     <div class="article-container bg-mental">
         <h2>Qu'est-ce que la santé mentale ?</h2>
         <p>
             La santé mentale englobe notre bien-être émotionnel, psychologique et social. Elle affecte la façon dont nous pensons, ressentons les choses,
             agissons et interagissons avec les autres. Elle détermine également notre capacité à faire face au stress, à surmonter les défis, à établir des relations et à prendre des décisions.
             Une bonne santé mentale ne signifie pas l’absence de troubles, mais la capacité à vivre avec équilibre, lucidité et résilience.
-        </p>
         <p>
             Dans un monde en perpétuel mouvement, marqué par les pressions sociales, professionnelles et personnelles, préserver sa santé mentale est devenu un enjeu essentiel.
             C’est pourquoi il est nécessaire d’en parler ouvertement et de mettre en place des actions concrètes de prévention et de soutien.
+        </p>
         </p>
     </div>
 
@@ -131,4 +187,12 @@
             Votre santé mentale mérite toute votre attention.
         </p>
     </div>
+
+    <!-- Vidéo intégrée -->
+    <div class="video-container">
+        <iframe width="100%" height="400" src="https://www.youtube.com/embed/USx3_sGMTQY" title="Santé mentale vidéo" frameborder="0" allowfullscreen></iframe>
+    </div>
+
+    
 </div>
+

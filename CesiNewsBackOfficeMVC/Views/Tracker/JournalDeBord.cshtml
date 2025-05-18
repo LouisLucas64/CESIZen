@@ -4,14 +4,17 @@
     ViewData["Title"] = "Journal de Bord";
 }
 
+
 <h2 class="mb-4">Journal de Bord</h2>
+<p>Ajoute un tracker pour noter ton émotion en ce moment OU génère un rapport d'émotions sur la période que tu souhaite.</p>
+
 
 <div class="d-flex justify-content-between mb-4">
-    <a asp-controller="RapportEmotion" asp-action="GenererRapport" class="btn btn-outline-success">
-        Générer un rapport d'émotions
-    </a>
     <a asp-action="AjouterTracker" class="btn text-white" style="background-color: #286291;">
         Ajouter un tracker
+    </a>
+    <a asp-controller="RapportEmotion" asp-action="GenererRapport" class="btn btn-outline-success">
+        Générer un rapport d'émotions
     </a>
 </div>
 
@@ -29,8 +32,8 @@
             _ => "#f8f9fa"            // gris neutre
         };
 
-        <div class="col-md-6 mb-4">
-            <div class="card shadow" style="background-color:@bgColor;">
+        <div class="col-md-6 mb-4 d-flex align-items-stretch">
+            <div class="card shadow h-100" style="background-color:@bgColor;">
                 <div class="card-body">
                     <h4 class="card-title fw-bold" style="color: #286291;">@tracker.Titre</h4>
                     <p><strong>Date :</strong> @tracker.Date_Creation.ToShortDateString()</p>
