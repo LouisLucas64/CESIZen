@@ -16,7 +16,6 @@ public class Emotion
 
     public string? Nom_Emotion_Niveau2 { get; set; }
 
-    //public ICollection<Tracker> Trackers { get; set; }
 
     [InverseProperty(nameof(Tracker.Emotion))]
     public virtual List<Tracker>? Trackers { get; set; }

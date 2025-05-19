@@ -45,7 +45,7 @@ namespace CESIZenBackOfficeMVC.Controllers
                 return View("GenererRapport");
             }
 
-            // Statistiques de base
+            
             var total = trackers.Count;
             var moyenneIntensite = trackers.Average(t => t.Note_Intensite);
 

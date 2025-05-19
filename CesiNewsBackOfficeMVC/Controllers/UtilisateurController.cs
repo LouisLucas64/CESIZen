@@ -22,7 +22,8 @@ namespace CESIZenBackOfficeMVC.Controllers
             var role = HttpContext.Session.GetString("Role");
 
             if (role != "Admin")
-                return Forbid(); // ou RedirectToAction("Index", "Home");
+               // return Forbid(); 
+               RedirectToAction("Index", "Home");
 
             var utilisateurs = await _context.Utilisateurs.ToListAsync();
             return View(utilisateurs);
@@ -167,7 +168,7 @@ namespace CESIZenBackOfficeMVC.Controllers
 
 
             bool emailExiste = await _context.Utilisateurs
-                .AnyAsync(u => u.Mail == utilisateur.Mail);
+            .AnyAsync(u => u.Mail == utilisateur.Mail && u.Id != utilisateur.Id);
             if (emailExiste)
             {
                 ViewData["Message"] = "Cet email est déjà utilisé.";
@@ -181,7 +182,7 @@ namespace CESIZenBackOfficeMVC.Controllers
             if (utilisateurEnBase == null)
                 return NotFound();
 
-            // Met à jour uniquement les champs autorisés
+            
             utilisateurEnBase.Nom = utilisateur.Nom;
             utilisateurEnBase.Prenom = utilisateur.Prenom;
             utilisateurEnBase.Mail = utilisateur.Mail;
@@ -200,7 +201,7 @@ namespace CESIZenBackOfficeMVC.Controllers
             _context.Utilisateurs.Remove(utilisateur);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("ListeUtilisateurs"); // ou l’action que tu veux afficher après
+            return RedirectToAction("ListeUtilisateurs"); 
         }
 
         [HttpGet]
