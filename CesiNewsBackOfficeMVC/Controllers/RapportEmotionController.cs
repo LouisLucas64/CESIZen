@@ -29,7 +29,7 @@ namespace CESIZenBackOfficeMVC.Controllers
             if (utilisateurId == null)
                 return RedirectToAction("Connexion", "Utilisateur");
 
-            // Récupère tous les trackers de l'utilisateur entre les deux dates
+            // Récupère tous les trackers de l'utilisateur entre les deux dates et couvre toute la journée de la date de fin
             dateDebut = dateDebut.Date;
             dateFin = dateFin.Date.AddDays(1).AddTicks(-1);
 

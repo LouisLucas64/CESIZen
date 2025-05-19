@@ -26,11 +26,13 @@ namespace CESIZenBackOfficeMVC.Controllers
             var trackers = await _context.Trackers
                 .Include(t => t.Emotion)
                 .Where(t => t.UtilisateurId == utilisateurId)
+                .OrderByDescending(t => t.Date_Creation)
                 .ToListAsync();
 
             return View(trackers);
         }
 
+        //pas utilise
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null) return NotFound();
