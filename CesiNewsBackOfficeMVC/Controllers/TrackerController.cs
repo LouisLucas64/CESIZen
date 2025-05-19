@@ -81,11 +81,13 @@ namespace CESIZenBackOfficeMVC.Controllers
                 champManquant = true;
             }
 
-            if (tracker.EmotionId == 0)
+
+            if (!tracker.Note_Intensite.HasValue || tracker.Note_Intensite < 1 || tracker.Note_Intensite > 10)
             {
-                ViewData["MessageEmotion"] = "Veuillez sélectionner une émotion.";
+                ViewData["MessageIntensite"] = "L’intensité doit être renseignée entre 1 et 10.";
                 champManquant = true;
             }
+
 
             if (string.IsNullOrWhiteSpace(tracker.Commentaire))
             {
@@ -184,22 +186,30 @@ namespace CESIZenBackOfficeMVC.Controllers
                 return RedirectToAction("Connexion", "Utilisateur");
 
 
-            // Validation manuelle
-            bool champInvalide = false;
+            
+            bool champManquant = false;
 
             if (string.IsNullOrWhiteSpace(tracker.Titre))
             {
                 ViewData["MessageTitre"] = "Le titre est requis.";
-                champInvalide = true;
+                champManquant = true;
             }
 
             if (string.IsNullOrWhiteSpace(tracker.Commentaire))
             {
                 ViewData["MessageCommentaire"] = "Le commentaire est requis.";
-                champInvalide = true;
+                champManquant = true;
             }
 
-            if (champInvalide)
+            if (!tracker.Note_Intensite.HasValue || tracker.Note_Intensite < 1 || tracker.Note_Intensite > 10)
+            {
+                ViewData["MessageIntensite"] = "L’intensité doit être renseignée entre 1 et 10.";
+                champManquant = true;
+            }
+
+
+
+            if (champManquant)
             {
                 var emotionsErreur = _context.Emotions
                     .Select(e => new

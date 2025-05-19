@@ -33,7 +33,7 @@
                         <div class="form-group mb-3">
                             <label class="form-label fw-bold">Émotion (Principale - Secondaire)</label>
                             <select asp-for="EmotionId" class="form-control" asp-items="emotions"></select>
-                           
+                            
                         </div>
 
                         <div class="form-group mb-3">
@@ -44,7 +44,10 @@
                         <div class="form-group mb-3">
                             <label asp-for="Note_Intensite" class="form-label fw-bold">Modifiez l'intensité de votre émotion sur 10</label>
                             <input asp-for="Note_Intensite" type="number" class="form-control" min="1" max="10" />
-                            
+                            @if (ViewData["MessageIntensite"] != null)
+                            {
+                                <span class="text-danger">@ViewData["MessageIntensite"]</span>
+                            }
                         </div>
 
                         <div class="form-group mb-4">

@@ -21,61 +21,57 @@
                     <img src="~/images/Logo CESIZen.png" alt="CESIZen Logo" style="height: 80px;" />
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                aria-expanded="false" aria-label="Toggle navigation">
+                        aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Accueil</a>
+                            <a class="nav-link" asp-controller="Home" asp-action="Index" style="color:#286291; font-weight:600;">Accueil</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Contenu" asp-action="Contenu">Informations sur la santé</a>
+                            <a class="nav-link" asp-controller="Contenu" asp-action="Contenu" style="color:#286291; font-weight:600;">Informations sur la santé</a>
                         </li>
 
                         @if (Context.Session.GetInt32("UtilisateurId") != null)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Tracker" asp-action="JournalDeBord">Journal de Bord</a>
+                                <a class="nav-link" asp-controller="Tracker" asp-action="JournalDeBord" style="color:#286291; font-weight:600;">Journal de Bord</a>
                             </li>
-                           
                         }
 
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Utilisateur" asp-action="CreationCompte">Inscription</a>
+                            <a class="nav-link" asp-controller="Utilisateur" asp-action="CreationCompte" style="color:#286291; font-weight:600;">Inscription</a>
                         </li>
+
                         <ul class="navbar-nav ml-auto">
                             @if (Context.Session.GetInt32("UtilisateurId") != null)
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-controller="Utilisateur" asp-action="Compte">Compte</a>
+                                    <a class="nav-link" asp-controller="Utilisateur" asp-action="Compte" style="color:#286291; font-weight:600;">Compte</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-controller="Utilisateur" asp-action="Deconnexion">Déconnexion</a>
+                                    <a class="nav-link" asp-controller="Utilisateur" asp-action="Deconnexion" style="color:#dc3545; font-weight:700; border: 2px solid #dc3545; border-radius: 5px; padding: 5px 10px;">Déconnexion</a>
                                 </li>
                             }
                             else
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-controller="Utilisateur" asp-action="Connexion">Connexion</a>
+                                    <a class="nav-link" asp-controller="Utilisateur" asp-action="Connexion" style="color:#286291; font-weight:600;">Connexion</a>
                                 </li>
                             }
                         </ul>
 
-
                         @if (role == "Admin")
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="Utilisateur" asp-action="ListeUtilisateurs">Gestion utilisateurs</a>
+                                <a class="nav-link" asp-controller="Utilisateur" asp-action="ListeUtilisateurs" style="color:#B8860B; font-weight:600;">Gestion utilisateurs</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Emotion" asp-action="ListeEmotion">Gestion des émotions</a>
+                                <a class="nav-link" asp-controller="Emotion" asp-action="ListeEmotion" style="color:#B8860B; font-weight:600;">Gestion des émotions</a>
                             </li>
                         }
-
-                       
                     </ul>
-
                 </div>
             </div>
         </nav>
@@ -88,7 +84,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2025 - CESIZen 
+            &copy; 2025 - CESIZen
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
