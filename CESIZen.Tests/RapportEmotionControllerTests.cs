@@ -129,9 +129,9 @@ public class RapportEmotionControllerTests
 
         context.Trackers.AddRange(new List<Tracker>
     {
-        new Tracker {Titre = "Test1", Id = 1, UtilisateurId = 1, Date_Creation = DateTime.Today, Emotion_Niveau1 = "Joie", Emotion_Niveau2 = "Heureux", Note_Intensite = 7 },
-        new Tracker {Titre = "Test2", Id = 2, UtilisateurId = 1, Date_Creation = DateTime.Today, Emotion_Niveau1 = "Joie", Emotion_Niveau2 = "Heureux", Note_Intensite = 8 },
-        new Tracker {Titre = "Test3", Id = 3, UtilisateurId = 1, Date_Creation = DateTime.Today, Emotion_Niveau1 = "Tristesse", Emotion_Niveau2 = "Déçu", Note_Intensite = 4 }
+        new Tracker {Titre = "Test1", Id = 1, UtilisateurId = 1, Date_Creation = DateTime.Today, Emotion_Niveau1 = "Joie", Emotion_Niveau2 = "Fierté", Note_Intensite = 7 },
+        new Tracker {Titre = "Test2", Id = 2, UtilisateurId = 1, Date_Creation = DateTime.Today, Emotion_Niveau1 = "Joie", Emotion_Niveau2 = "Fierté", Note_Intensite = 8 },
+        new Tracker {Titre = "Test3", Id = 3, UtilisateurId = 1, Date_Creation = DateTime.Today, Emotion_Niveau1 = "Tristesse", Emotion_Niveau2 = "Solitude", Note_Intensite = 4 }
     });
         await context.SaveChangesAsync();
 
@@ -148,8 +148,8 @@ public class RapportEmotionControllerTests
         var rapport = result.Model as RapportEmotion;
         Assert.NotNull(rapport);
         Assert.Equal("Joie", rapport.Emotion_Predominante_Niv1);
-        Assert.Equal("Heureux", rapport.Emotion_Predominante_Niv2);
-        Assert.Equal("Déçu", rapport.Emotion_Moins_Frequente);
+        Assert.Equal("Fierté", rapport.Emotion_Predominante_Niv2);
+        Assert.Equal("Solitude", rapport.Emotion_Moins_Frequente);
     }
 
 
