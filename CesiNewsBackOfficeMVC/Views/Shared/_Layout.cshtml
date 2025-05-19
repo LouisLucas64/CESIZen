@@ -12,6 +12,28 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/CESIZenBackOfficeMVC.styles.css" asp-append-version="true" />
+
+    <style>
+        /* Effet hover pour tous les liens du menu sauf déconnexion */
+        .nav-link:not(.logout-link):hover {
+            filter: brightness(110%);
+            text-decoration: none;
+        }
+        /* Style spécial déconnexion avec hover */
+        .logout-link {
+            color: #dc3545 !important;
+            font-weight: 700;
+            border: 2px solid #dc3545;
+            border-radius: 5px;
+            padding: 5px 10px;
+            transition: filter 0.2s ease-in-out;
+        }
+
+            .logout-link:hover {
+                filter: brightness(85%);
+                text-decoration: none;
+            }
+    </style>
 </head>
 <body>
     <header>
@@ -36,7 +58,7 @@
                         @if (Context.Session.GetInt32("UtilisateurId") != null)
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="Tracker" asp-action="JournalDeBord" style="color:#286291; font-weight:600;">Journal de Bord</a>
+                                <a class="nav-link" asp-controller="Tracker" asp-action="JournalDeBord" style="color:#286291; font-weight:600;">Mon journal de Bord</a>
                             </li>
                         }
 
@@ -51,13 +73,13 @@
                                     <a class="nav-link" asp-controller="Utilisateur" asp-action="Compte" style="color:#286291; font-weight:600;">Compte</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-controller="Utilisateur" asp-action="Deconnexion" style="color:#dc3545; font-weight:700; border: 2px solid #dc3545; border-radius: 5px; padding: 5px 10px;">Déconnexion</a>
+                                    <a class="nav-link logout-link" asp-controller="Utilisateur" asp-action="Deconnexion">Déconnexion</a>
                                 </li>
                             }
                             else
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-controller="Utilisateur" asp-action="Connexion" style="color:#286291; font-weight:600;">Connexion</a>
+                                    <a class="nav-link" asp-controller="Utilisateur" asp-action="Connexion" style="color:#22844E; font-weight:600;">Connexion</a>
                                 </li>
                             }
                         </ul>
