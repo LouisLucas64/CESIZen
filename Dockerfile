@@ -2,14 +2,22 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copie tout
+# Copier les fichiers de solution et de projets pour le restore
+COPY ["CESIZenAppli.sln", "./"]
+COPY ["CesiNewsBackOfficeMVC/CesiNewsBackOfficeMVC.csproj", "CesiNewsBackOfficeMVC/"]
+COPY ["CesiNewsModel/CesiNewsModel.csproj", "CesiNewsModel/"]
+COPY ["CESIZen.Tests/CESIZen.Tests.csproj", "CESIZen.Tests/"]
+
+# Restore des dépendances
+RUN dotnet restore "CESIZenAppli.sln"
+
+# Copier tout le code source
 COPY . .
 
-# Restore
-RUN dotnet restore CESIZenAppli.sln
-
-# Build et publish
-RUN dotnet publish CesiNewsBackOfficeMVC/CesiNewsBackOfficeMVC.csproj -c Release -o /app/publish
+# Build et publish du projet spécifique
+WORKDIR "/src/CesiNewsBackOfficeMVC"
+RUN dotnet build "CesiNewsBackOfficeMVC.csproj" -c Release -o /app/build
+RUN dotnet publish "CesiNewsBackOfficeMVC.csproj" -c Release -o /app/publish --no-restore
 
 # Étape 2 : Runtime
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
