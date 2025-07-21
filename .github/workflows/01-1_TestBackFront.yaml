@@ -1,0 +1,54 @@
+name: 01-1 - Integration - TEST
+
+on:
+  push:
+    branches:
+      - main
+      - 'feature/**'
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    services:
+      sqlserver:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        env:
+          SA_PASSWORD: "YourStrong!Passw0rd"
+          ACCEPT_EULA: "Y"
+        ports:
+          - 1433:1433
+        options: >-
+          --health-cmd "exit 0"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    env:
+      ConnectionStrings__DefaultConnection: "Server=localhost;Database=TestDB;User Id=sa;Password=YourStrong!Passw0rd;"
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x # ou 6.0.x/7.0.x selon ta version
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build the app
+        run: dotnet build --no-restore --configuration Release
+
+      - name: Run tests
+        run: dotnet test --no-build --verbosity normal
+
+      - name: Upload Test Results (facultatif)
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: ./TestResults
+          retention-days: 1
