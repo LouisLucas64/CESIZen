@@ -1,0 +1,39 @@
+name: 01-3 - Integration - SNYK
+
+on:
+  workflow_call
+
+jobs:
+  Security:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: .  # racine du projet
+      
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20' 
+
+      - name: Install dependencies
+        run: npm install
+      
+      - name: Run Snyk Test
+        uses: snyk/actions/node@v2
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: test
+          args: --severity-threshold=medium --file=./package.json --org=${{ secrets.SNYK_ORG_ID }}
+      
+      - name: Run Snyk Monitor
+        if: always()
+        uses: snyk/actions/node@v2
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: monitor
+          args: --severity-threshold=medium --file=./package.json --org=${{ secrets.SNYK_ORG_ID }}
