@@ -1,0 +1,32 @@
+name: 01-2 - Integration - SONARQUBE
+
+on:
+  workflow_call
+
+jobs:
+  QualityCheck:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Download Coverage Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: back-coverage-report
+          path: coverage
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Run SonarCloud analysis
+        uses: SonarSource/sonarcloud-github-action@v3.1.0
+        with:
+          projectBaseDir: .
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_BACK }}
