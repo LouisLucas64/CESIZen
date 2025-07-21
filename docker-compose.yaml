@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: mono_sqlserver
+    environment:
+      SA_PASSWORD: "YourStrong!Passw0rd"
+      ACCEPT_EULA: "Y"
+    ports:
+      - 1433:1433
+    healthcheck:
+      test: ["CMD", "sqlcmd", "-S", "localhost", "-U", "sa", "-P", "YourStrong!Passw0rd", "-Q", "SELECT 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+  mono_adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+
+  mono_backend_build:
+    container_name: mono_backend_build
+    build: .
+    environment:
+      ConnectionStrings__DefaultConnection: "Server=sqlserver;Database=TestDB;User Id=sa;Password=YourStrong!Passw0rd;"
+    ports:
+      - 12000:12000
+    depends_on:
+      sqlserver:
+        condition: service_healthy
