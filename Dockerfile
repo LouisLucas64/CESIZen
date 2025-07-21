@@ -14,10 +14,10 @@ RUN dotnet restore "CESIZenAppli.sln"
 # Copier tout le code source
 COPY . .
 
-# Build et publish du projet spécifique
+# Build et publish du projet principal
 WORKDIR "/src/CesiNewsBackOfficeMVC"
-RUN dotnet build "CesiNewsBackOfficeMVC.csproj" -c Release -o /app/build
-RUN dotnet publish "CesiNewsBackOfficeMVC.csproj" -c Release -o /app/publish --no-restore
+RUN dotnet build "CESIZenBackOfficeMVC.csproj" -c Release -o /app/build
+RUN dotnet publish "CESIZenBackOfficeMVC.csproj" -c Release -o /app/publish --no-restore
 
 # Étape 2 : Runtime
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
@@ -27,4 +27,4 @@ COPY --from=build /app/publish .
 ENV ASPNETCORE_URLS=http://+:5000
 EXPOSE 5000
 
-ENTRYPOINT ["dotnet", "CesiNewsBackOfficeMVC.dll"]
+ENTRYPOINT ["dotnet", "CESIZenBackOfficeMVC.dll"]
