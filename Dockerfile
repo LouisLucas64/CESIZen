@@ -1,14 +1,14 @@
 # Étape 1 : Build
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /app
+WORKDIR /src
 
-# Copie les fichiers CSPROJ et restore
-COPY *.sln .
-COPY CesiNewsBackOfficeMVC/*.csproj ./CesiNewsBackOfficeMVC/
-RUN dotnet restore
-
-# Copie tout et build
+# Copie tout
 COPY . .
+
+# Restore
+RUN dotnet restore CESIZenAppli.sln
+
+# Build et publish
 RUN dotnet publish CesiNewsBackOfficeMVC/CesiNewsBackOfficeMVC.csproj -c Release -o /app/publish
 
 # Étape 2 : Runtime
