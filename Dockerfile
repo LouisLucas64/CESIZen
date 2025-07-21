@@ -4,7 +4,7 @@ WORKDIR /src
 
 # Copier les fichiers de solution et de projets pour le restore
 COPY ["CESIZenAppli.sln", "./"]
-COPY ["CesiNewsBackOfficeMVC/CesiNewsBackOfficeMVC.csproj", "CesiNewsBackOfficeMVC/"]
+COPY ["CesiNewsBackOfficeMVC/CESIZenBackOfficeMVC.csproj", "CesiNewsBackOfficeMVC/"]
 COPY ["CesiNewsModel/CESIZenModel.csproj", "CesiNewsModel/"]
 COPY ["CESIZen.Tests/CESIZen.Tests.csproj", "CESIZen.Tests/"]
 
