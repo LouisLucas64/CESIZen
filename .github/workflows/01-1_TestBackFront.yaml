@@ -35,18 +35,18 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: 8.0.x # ou 6.0.x/7.0.x selon ta version
+          dotnet-version: 8.0.x # ou adapte selon ta version cible
 
       - name: Restore dependencies
         run: dotnet restore
 
-      - name: Build the app
+      - name: Build the solution
         run: dotnet build --no-restore --configuration Release
 
       - name: Run tests
-        run: dotnet test --no-build --verbosity normal
+        run: dotnet test --no-build --configuration Release --verbosity normal --logger "trx;LogFileName=test-results.trx" --results-directory ./TestResults
 
-      - name: Upload Test Results (facultatif)
+      - name: Upload Test Results
         uses: actions/upload-artifact@v4
         with:
           name: test-results
