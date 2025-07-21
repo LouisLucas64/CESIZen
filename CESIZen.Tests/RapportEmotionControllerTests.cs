@@ -20,10 +20,10 @@ public class RapportEmotionControllerTests
 
         var context = new NewsDbContext(options);
 
-        // Aucun tracker ajouté ici → pour tester le cas "aucune donnée"
-
         return context;
     }
+
+    // Aucun tracker ajouté ici pour tester le cas "aucune donnée pour cette période"
 
     [Fact]
     public async Task GenererRapport_AucunTracker_RetourneVueAvecMessage()
@@ -33,8 +33,8 @@ public class RapportEmotionControllerTests
         var controller = new RapportEmotionController(context);
 
         var httpContext = new DefaultHttpContext();
-        httpContext.Session = new TestSession(); // Mock session
-        httpContext.Session.SetInt32("UtilisateurId", 1); // utilisateur ID fictif
+        httpContext.Session = new TestSession(); 
+        httpContext.Session.SetInt32("UtilisateurId", 1); // utilisateur fictif
         controller.ControllerContext.HttpContext = httpContext;
 
         var dateDebut = DateTime.Today.AddDays(-1);
