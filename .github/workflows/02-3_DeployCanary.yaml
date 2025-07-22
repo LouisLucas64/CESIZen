@@ -9,7 +9,7 @@ jobs:
     environment: CANARY
 
     env:
-      ResourceGroupName: "cesizen-canary"
+      ResourceGroupName: "CESIZenLouis-MID"
       ResourceGroupLocation: "francecentral"
 
     steps:
@@ -64,11 +64,11 @@ jobs:
             ls -al
             bash ./install_docker.sh
 
-      - name: Set DNS Domain in ClicBoumPaf
-        uses: azure/CLI@v2
-        with:
-          inlineScript: |
-            az network dns record-set a add-record -g ClicBoumPaf -z testeur.clic-boum-paf.com -n cesizen -a ${{env.AZURE_VM_IP}}
+      #- name: Set DNS Domain in ClicBoumPaf
+      #  uses: azure/CLI@v2
+      #  with:
+      #    inlineScript: |
+      #      az network dns record-set a add-record -g ClicBoumPaf -z testeur.clic-boum-paf.com -n cesizen -a ${{env.AZURE_VM_IP}}
             
       - name: Checkout
         uses: actions/checkout@v3
