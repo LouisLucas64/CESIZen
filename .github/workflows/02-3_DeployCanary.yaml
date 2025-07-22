@@ -9,7 +9,7 @@ jobs:
     environment: CANARY
 
     env:
-      ResourceGroupName: "CESIZenLouis-MID"
+      ResourceGroupName: "cesizen-canary"
       ResourceGroupLocation: "francecentral"
 
     steps:
