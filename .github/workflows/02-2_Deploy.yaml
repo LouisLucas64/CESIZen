@@ -33,7 +33,7 @@ jobs:
           script: |
             echo ${{secrets.MONOREPO_PAT}} | docker login ghcr.io -u LouisLucas64 --password-stdin
 
-            docker pull ghcr.io/LouisLucas64/CESIZen:jenpeuplus
+            docker pull ghcr.io/louislucas64/cesizen:jenpeuplus
             
 
             docker compose up -d

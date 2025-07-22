@@ -6,7 +6,7 @@ on:
       docker-mode:
         required: false
         type: string
-        default: ""
+        default: latest
 
 env:
   REGISTRY: ghcr.io
