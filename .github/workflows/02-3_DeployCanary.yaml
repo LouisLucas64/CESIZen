@@ -1,7 +1,8 @@
 name: 02-3 - Deploy - Canary
 
 on:
-  workflow_dispatch #workflow_call
+  workflow_dispatch 
+  #workflow_call
 
 jobs:
   AzureCanaryServer:
