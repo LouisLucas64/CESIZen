@@ -28,11 +28,11 @@ jobs:
   #  secrets: inherit
 
   # TEST
-  Test_on_pr:
-    if: ${{github.ref_name == 'release/*'}}
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo CA MARCHE
+  #Test_on_pr:
+  # if: ${{github.ref_name == 'release/*'}}
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #    - run: echo CA MARCHE
   
 
   # DEPLOY CANARY
