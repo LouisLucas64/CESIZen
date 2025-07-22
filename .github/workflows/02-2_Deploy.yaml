@@ -17,7 +17,7 @@ jobs:
           host: ${{ secrets.AZURE_HOST }}
           port: ${{ secrets.AZURE_PORT }}
           username: ${{ secrets.AZURE_LOGIN }}
-          key: ${{ secrets.AZURE_SSH_KEY }}
+          key: ${{ secrets.AZURE_PASSWORD }}
 
           source: "./docker-compose.yaml"
           target: "."
