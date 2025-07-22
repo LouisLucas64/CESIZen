@@ -28,20 +28,26 @@ jobs:
             az group create --name ${{env.ResourceGroupName}} --location ${{env.ResourceGroupLocation}}
             echo "Azure resource group created"
     
-      - name: Azure ARM Deploy
-        uses: azure/arm-deploy@v2
+      - name: Déployer ARM template via Azure CLI
+        uses: azure/CLI@v2
         with:
-          resourceGroupName: ${{env.ResourceGroupName}}
-          scope: resourcegroup
-          template: https://raw.githubusercontent.com/Azure/azure-quickstart-templates/refs/heads/master/quickstarts/microsoft.compute/vm-simple-linux/azuredeploy.json
-          parameters: adminUsername=${{secrets.AZURE_VM_LOGIN}} adminPasswordOrKey=${{secrets.AZURE_VM_PASSWORD}} vmName="Canary-Server" vmSize="Standard_B2s"
+            azcliversion: 2.55.0
+            inlineScript: |
+                az deployment group create \
+                    --name canaryDeployment-${{ github.run_number }} \
+                    --resource-group ${{ env.ResourceGroupName }} \
+                    --template-uri "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/refs/heads/master/quickstarts/microsoft.compute/vm-simple-linux/azureDeploy.json" \
+                    --parameters adminUsername=${{ secrets.AZURE_VM_LOGIN }} adminPasswordOrKey=${{ secrets.AZURE_VM_PASSWORD }} vmName="Canary-Server" vmSize="Standard_B2s" \
+                    --no-prompt
+
       
       - name: Open Port on Security Group
         uses: azure/CLI@v2
         with:
           inlineScript: |
-            az network nsg rule create --resource-group ${{env.ResourceGroupName}} --nsg-name SecGroupNet --name OuvrirPort5000 --priority 100 --direction Inbound --access Allow --protocol Tcp --source-address-prefixes "*" --source-port-ranges "*" --destination-address-prefixes "*" --destination-port-ranges 5000
+            az network nsg rule create --resource-group ${{env.ResourceGroupName}} --nsg-name SecGroupNet --name OuvrirPort12000 --priority 100 --direction Inbound --access Allow --protocol Tcp --source-address-prefixes "*" --source-port-ranges "*" --destination-address-prefixes "*" --destination-port-ranges 12000
             az network nsg rule create --resource-group ${{env.ResourceGroupName}} --nsg-name SecGroupNet --name OuvrirPort80 --priority 101 --direction Inbound --access Allow --protocol Tcp --source-address-prefixes "*" --source-port-ranges "*" --destination-address-prefixes "*" --destination-port-ranges 80
+
 
       - name: Get Public IP et créer règle 
         if: success()
@@ -64,11 +70,11 @@ jobs:
             ls -al
             bash ./install_docker.sh
 
-      #- name: Set DNS Domain in ClicBoumPaf
-      #  uses: azure/CLI@v2
-      #  with:
-      #    inlineScript: |
-      #      az network dns record-set a add-record -g ClicBoumPaf -z testeur.clic-boum-paf.com -n cesizen -a ${{env.AZURE_VM_IP}}
+      - name: Set DNS Domain in ClicBoumPaf
+        uses: azure/CLI@v2
+        with:
+          inlineScript: |
+            az network dns record-set a add-record -g ClicBoumPaf -z testeur.clic-boum-paf.com -n mono -a ${{env.AZURE_VM_IP}}
             
       - name: Checkout
         uses: actions/checkout@v3
@@ -80,6 +86,7 @@ jobs:
           port: ${{secrets.PORT}} 
           username: ${{secrets.AZURE_VM_LOGIN}}
           password: ${{secrets.AZURE_VM_PASSWORD}}
+
           source: "./docker-compose.yaml"
           target: "."
 
@@ -96,8 +103,12 @@ jobs:
           port: ${{secrets.PORT}} 
           username: ${{secrets.AZURE_VM_LOGIN}}
           password: ${{secrets.AZURE_VM_PASSWORD}}
+
           script: |
-            echo CESIZEN_APP=ghcr.io/${{env.IMAGE_NAME_LOWER}}:canary > .env
-            
-            docker pull ghcr.io/${{env.IMAGE_NAME_LOWER}}:canary
+            echo MONO_PROJECT_BACK=ghcr.io/${{env.IMAGE_NAME_LOWER}}-back:canary > .env
+            echo MONO_PROJECT_FRONT=ghcr.io/${{env.IMAGE_NAME_LOWER}}-front:canary >> .env
+
+            docker pull ghcr.io/${{env.IMAGE_NAME_LOWER}}-back:canary
+            docker pull ghcr.io/${{env.IMAGE_NAME_LOWER}}-front:canary
+
             docker compose up -d
