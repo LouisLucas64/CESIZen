@@ -37,7 +37,7 @@ jobs:
 
   # DEPLOY CANARY
   Deploy_Canary:
-    if: ${{github.event_name == 'push'}}
+    if: ${{github.event_name != 'develop'}}
     uses: ./.github/workflows/02-3_DeployCanary.yaml
     secrets: inherit
     permissions:
