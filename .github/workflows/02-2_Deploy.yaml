@@ -1,0 +1,40 @@
+name: 02-2 - Deploy 
+
+on:
+  workflow_call
+
+jobs:
+  AzureDeploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Update Compose File
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.AZURE_HOST }}
+          port: ${{ secrets.AZURE_PORT }}
+          username: ${{ secrets.AZURE_LOGIN }}
+          key: ${{ secrets.AZURE_SSH_KEY }}
+
+          source: "./docker-compose.yml"
+          target: "."
+
+      - name: Start App
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.AZURE_HOST }}
+          port: ${{ secrets.AZURE_PORT }}
+          username: ${{ secrets.AZURE_LOGIN }}
+          key: ${{ secrets.AZURE_SSH_KEY }}
+
+          script: |
+            echo ${{secrets.MONOREPO_PAT}} | docker login ghcr.io -u LouisLucas64 --password-stdin
+
+            docker pull ghcr.io/LouisLucas64/CESIZen:jenpeuplus
+            
+
+            docker compose up -d
+      
