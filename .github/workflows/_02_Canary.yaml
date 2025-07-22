@@ -14,18 +14,18 @@ jobs:
         run: env | sort
 
   # DOCKER BUILD CANARY
-  Build-Push-DockerGhcr:
-    if: ${{github.ref_name == 'develop'}}
-    uses: ./.github/workflows/z_Docker-Ghcr.yaml
-    secrets: inherit
-    with:
-      docker-mode: canary
+  #Build-Push-DockerGhcr:
+  #  if: ${{github.ref_name == 'develop'}}
+  # uses: ./.github/workflows/z_Docker-Ghcr.yaml
+  #  secrets: inherit
+  #  with:
+  #    docker-mode: canary
 
   # TRIVY SCAN
-  Trivy-Scan-Package:
-    needs: [Build-Push-DockerGhcr]
-    uses: ./.github/workflows/02-2_TrivyScan.yaml
-    secrets: inherit
+  #Trivy-Scan-Package:
+  #  needs: [Build-Push-DockerGhcr]
+  #  uses: ./.github/workflows/02-2_TrivyScan.yaml
+  #  secrets: inherit
 
   # TEST
   Test_on_pr:
@@ -36,13 +36,13 @@ jobs:
   
 
   # DEPLOY CANARY
-  # Deploy_Canary:
-  #   if: ${{github.event_name == 'push'}}
-  #   uses: ./.github/workflows/02-3_DeployCanary.yaml
-  #   secrets: inherit
-  #   permissions:
-  #     id-token: write
-  #     contents: read
+  Deploy_Canary:
+    if: ${{github.event_name == 'push'}}
+    uses: ./.github/workflows/02-3_DeployCanary.yaml
+    secrets: inherit
+    permissions:
+      id-token: write
+      contents: read
 
   # # ZAP SCAN
   # Zaproxy_Scan:

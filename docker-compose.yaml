@@ -3,30 +3,40 @@ version: '3.8'
 services:
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: mono_sqlserver
+    container_name: cesizen_sqlserver
     environment:
       SA_PASSWORD: "YourStrong!Passw0rd"
       ACCEPT_EULA: "Y"
     ports:
-      - 1433:1433
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
     healthcheck:
       test: ["CMD", "sqlcmd", "-S", "localhost", "-U", "sa", "-P", "YourStrong!Passw0rd", "-Q", "SELECT 1"]
-      interval: 10s
+      interval: 30s
       timeout: 10s
       retries: 5
+    restart: unless-stopped
 
-  mono_adminer:
-    image: adminer
-    ports:
-      - 8080:8080
-
-  mono_backend_build:
-    container_name: mono_backend_build
-    build: .
+  cesizen-app:
+    image: ${CESIZEN_APP}
+    container_name: cesizen_app
     environment:
-      ConnectionStrings__DefaultConnection: "Server=sqlserver;Database=TestDB;User Id=sa;Password=YourStrong!Passw0rd;"
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=CesizenDB;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=true;
     ports:
-      - 12000:12000
+      - "5000:5000"
     depends_on:
       sqlserver:
         condition: service_healthy
+    restart: unless-stopped
+
+  adminer:
+    image: adminer
+    container_name: cesizen_adminer
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
+volumes:
+  sqlserver_data:
