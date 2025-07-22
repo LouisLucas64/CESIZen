@@ -19,7 +19,7 @@ jobs:
           username: ${{ secrets.AZURE_LOGIN }}
           key: ${{ secrets.AZURE_SSH_KEY }}
 
-          source: "./docker-compose.yml"
+          source: "./docker-compose.yaml"
           target: "."
 
       - name: Start App
@@ -33,7 +33,7 @@ jobs:
           script: |
             echo ${{secrets.MONOREPO_PAT}} | docker login ghcr.io -u LouisLucas64 --password-stdin
 
-            docker pull ghcr.io/louislucas64/cesizen:jenpeuplus
+            docker pull ghcr.io/louislucas64/cesizen:latest
             
 
             docker compose up -d
