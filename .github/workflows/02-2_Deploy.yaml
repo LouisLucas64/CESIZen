@@ -16,7 +16,7 @@ jobs:
         with:
           host: ${{ secrets.AZURE_HOST }}
           port: ${{ secrets.AZURE_PORT }}
-          username: ${{ secrets.AZURE_LOGIN }}
+          username: ${{ secrets.AZURE_USER }}
           password: ${{ secrets.AZURE_PASSWORD }}
 
           source: "./docker-compose.yaml"
@@ -29,7 +29,7 @@ jobs:
         with:
           host: ${{ secrets.AZURE_HOST }}
           port: ${{ secrets.AZURE_PORT }}
-          username: ${{ secrets.AZURE_LOGIN }}
+          username: ${{ secrets.AZURE_USER }}
           password: ${{ secrets.AZURE_PASSWORD }}
           script: |
             echo ${{ secrets.MONOREPO_PAT }} | docker login ghcr.io -u LouisLucas64 --password-stdin
