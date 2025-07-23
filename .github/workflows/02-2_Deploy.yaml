@@ -28,7 +28,7 @@ jobs:
           host: ${{ secrets.AZURE_HOST }}
           port: ${{ secrets.AZURE_PORT }}
           username: ${{ secrets.AZURE_LOGIN }}
-          password: ${{ secrets.AZURE_SSH_KEY }}
+          password: ${{ secrets.AZURE_PASSWORD }}
 
           script: |
             echo ${{secrets.MONOREPO_PAT}} | docker login ghcr.io -u LouisLucas64 --password-stdin
