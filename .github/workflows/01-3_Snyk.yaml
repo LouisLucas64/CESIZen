@@ -21,12 +21,12 @@ jobs:
           chmod +x snyk
           sudo mv snyk /usr/local/bin
 
-      - name: Run Snyk test for vulnerabilities
-        run: snyk test --all-projects --severity-threshold=medium
+      - name: Run Snyk test on all projects via solution file
+        run: snyk test --file=CESIZenAppli.sln --severity-threshold=medium
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-      - name: Monitor the project with Snyk
-        run: snyk monitor --all-projects
+      - name: Monitor the solution
+        run: snyk monitor --file=CESIZenAppli.sln
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
