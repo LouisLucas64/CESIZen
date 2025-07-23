@@ -25,7 +25,7 @@ services:
     environment:
       BDD_HOST: cesizen_db
     ports:
-      - "12000:12000"
+      - "12000:5000"
     depends_on:
       cesizen_db:
         condition: service_healthy
