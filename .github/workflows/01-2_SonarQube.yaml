@@ -1,7 +1,9 @@
 name: 01-2 - Integration - SONARQUBE
 
 on:
-  workflow_call
+  pull_request:
+    branches:
+      - develop
 
 jobs:
   QualityCheck:
@@ -9,6 +11,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Important pour SonarCloud PR
 
       - name: Download Coverage Artifact
         uses: actions/download-artifact@v4
@@ -27,8 +31,9 @@ jobs:
       - name: Run SonarCloud analysis
         uses: SonarSource/sonarcloud-github-action@v3.1.0
         with:
-          projectBaseDir: .
+          args: >
+            -Dsonar.projectKey=TON_PROJECT_KEY
+            -Dsonar.organization=TON_ORG
+            -Dsonar.cs.opencover.reportsPaths=coverage-report/Cobertura.xml
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_SCANNER_OPTS: "-Dsonar.cs.opencover.reportsPaths=coverage-report/Cobertura.xml"
-          
