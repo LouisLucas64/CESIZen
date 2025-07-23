@@ -15,18 +15,39 @@ jobs:
         with:
           dotnet-version: '8.x'
 
+      - name: Restore NuGet packages
+        run: dotnet restore CESIZenAppli.sln
+
       - name: Install Snyk CLI
         run: |
           curl https://static.snyk.io/cli/latest/snyk-linux -o snyk
           chmod +x snyk
           sudo mv snyk /usr/local/bin
 
-      - name: Run Snyk test on all projects via solution file
-        run: snyk test --file=CESIZenAppli.sln --severity-threshold=medium
+      - name: Authenticate Snyk
+        run: snyk auth ${{ secrets.SNYK_TOKEN }}
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+      - name: Run Snyk test on .NET solution
+        run: |
+          # Test each project individually
+          for project in $(find . -name "*.csproj" -not -path "./*/bin/*" -not -path "./*/obj/*"); do
+            echo "Testing project: $project"
+            snyk test --file="$project" --severity-threshold=medium || true
+          done
+          
+          # Alternative: Test using package references
+          snyk test --package-manager=nuget --file=CESIZenAppli.sln --severity-threshold=medium
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
       - name: Monitor the solution
-        run: snyk monitor --file=CESIZenAppli.sln
+        run: |
+          # Monitor each project
+          for project in $(find . -name "*.csproj" -not -path "./*/bin/*" -not -path "./*/obj/*"); do
+            echo "Monitoring project: $project"
+            snyk monitor --file="$project" || true
+          done
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
