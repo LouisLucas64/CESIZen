@@ -1,11 +1,14 @@
 name: 01-1 - Integration - TEST
 
+#on:
+#  push:
+#    branches:
+#      - main
+#      - 'feature/**'
+#  pull_request:
+
 on:
-  push:
-    branches:
-      - main
-      - 'feature/**'
-  pull_request:
+  workflow_call
 
 jobs:
   build-and-test:
