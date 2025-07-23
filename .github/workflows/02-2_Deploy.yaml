@@ -1,4 +1,4 @@
-name: 02-2 - Deploy 
+name: 02-2 - Deploy
 
 on:
   workflow_call
@@ -20,7 +20,9 @@ jobs:
           password: ${{ secrets.AZURE_PASSWORD }}
 
           source: "./docker-compose.yaml"
-          target: "."
+          target: "/home/azureuser/"
+          rm: true
+          strip_components: 0
 
       - name: Start App
         uses: appleboy/ssh-action@v1.0.3
@@ -29,13 +31,7 @@ jobs:
           port: ${{ secrets.AZURE_PORT }}
           username: ${{ secrets.AZURE_LOGIN }}
           password: ${{ secrets.AZURE_PASSWORD }}
-
           script: |
-            echo ${{secrets.MONOREPO_PAT}} | docker login ghcr.io -u LouisLucas64 --password-stdin
-
+            echo ${{ secrets.MONOREPO_PAT }} | docker login ghcr.io -u LouisLucas64 --password-stdin
             docker pull ghcr.io/louislucas64/cesizen:latest
-            
-
             docker compose up -d
-      
-            
