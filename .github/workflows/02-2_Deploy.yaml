@@ -32,6 +32,6 @@ jobs:
           username: ${{ secrets.AZURE_USER }}
           password: ${{ secrets.AZURE_PASSWORD }}
           script: |
-            echo ${{ secrets.MONOREPO_PAT }} | docker login ghcr.io -u LouisLucas64 --password-stdin
-            docker pull ghcr.io/louislucas64/cesizen:latest
-            docker compose up -d
+            echo ${{ secrets.MONOREPO_PAT }} | /usr/bin/docker login ghcr.io -u LouisLucas64 --password-stdin
+            /usr/bin/docker pull ghcr.io/louislucas64/cesizen:latest
+            /usr/bin/docker compose up -d
