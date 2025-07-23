@@ -1,9 +1,7 @@
 name: 01-2 - Integration - SONARQUBE
 
 on:
-  pull_request:
-    branches:
-      - develop
+  workflow_call
 
 jobs:
   QualityCheck:
@@ -37,4 +35,3 @@ jobs:
             -Dsonar.cs.opencover.reportsPaths=coverage-report/Cobertura.xml
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          
