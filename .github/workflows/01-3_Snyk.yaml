@@ -6,34 +6,48 @@ on:
 jobs:
   Security:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: .  # racine du projet
-      
+
     steps:
       - uses: actions/checkout@v4
-      
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20' 
 
-      - name: Install dependencies
-        run: npm install
-      
-      - name: Run Snyk Test
-        uses: snyk/actions/node@v2
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.x'
+
+      - name: Restore NuGet packages
+        run: dotnet restore CESIZenAppli.sln
+
+      - name: Install Snyk CLI
+        run: |
+          curl https://static.snyk.io/cli/latest/snyk-linux -o snyk
+          chmod +x snyk
+          sudo mv snyk /usr/local/bin
+
+      - name: Authenticate Snyk
+        run: snyk auth ${{ secrets.SNYK_TOKEN }}
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          command: test
-          args: --severity-threshold=medium --file=./package.json --org=${{ secrets.SNYK_ORG_ID }}
-      
-      - name: Run Snyk Monitor
-        if: always()
-        uses: snyk/actions/node@v2
+
+      - name: Run Snyk test on .NET solution
+        run: |
+          # Test each project individually
+          for project in $(find . -name "*.csproj" -not -path "./*/bin/*" -not -path "./*/obj/*"); do
+            echo "Testing project: $project"
+            snyk test --file="$project" --severity-threshold=medium || true
+          done
+          
+          # Alternative: Test using package references
+          snyk test --package-manager=nuget --file=CESIZenAppli.sln --severity-threshold=medium
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          command: monitor
-          args: --severity-threshold=medium --file=./package.json --org=${{ secrets.SNYK_ORG_ID }}
+
+      - name: Monitor the solution
+        run: |
+          # Monitor each project
+          for project in $(find . -name "*.csproj" -not -path "./*/bin/*" -not -path "./*/obj/*"); do
+            echo "Monitoring project: $project"
+            snyk monitor --file="$project" || true
+          done
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}

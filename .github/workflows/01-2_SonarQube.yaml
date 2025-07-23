@@ -9,6 +9,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Important pour SonarCloud PR
 
       - name: Download Coverage Artifact
         uses: actions/download-artifact@v4
@@ -27,6 +29,9 @@ jobs:
       - name: Run SonarCloud analysis
         uses: SonarSource/sonarcloud-github-action@v3.1.0
         with:
-          projectBaseDir: .
+          args: >
+            -Dsonar.projectKey=LouisLucas64_CESIZen
+            -Dsonar.organization=louislucas64
+            -Dsonar.cs.opencover.reportsPaths=coverage-report/Cobertura.xml
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_BACK }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
