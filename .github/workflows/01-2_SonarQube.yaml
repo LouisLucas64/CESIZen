@@ -32,8 +32,8 @@ jobs:
         uses: SonarSource/sonarcloud-github-action@v3.1.0
         with:
           args: >
-            -Dsonar.projectKey=TON_PROJECT_KEY
-            -Dsonar.organization=TON_ORG
+            -Dsonar.projectKey=LouisLucas64_CESIZen
+            -Dsonar.organization=louislucas64
             -Dsonar.cs.opencover.reportsPaths=coverage-report/Cobertura.xml
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
