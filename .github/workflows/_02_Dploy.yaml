@@ -1,0 +1,17 @@
+name: 02 - Deploy
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  Dockerbuild:
+    uses: ./.github/workflows/z_Docker-Ghcr.yaml
+    secrets: inherit
+
+  Deploy:
+    needs: [Dockerbuild]
+    uses: ./.github/workflows/02-2_Deploy.yaml
+    secrets: inherit

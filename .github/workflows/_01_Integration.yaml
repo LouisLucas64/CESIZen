@@ -1,0 +1,58 @@
+name: 01 - Integration
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+
+  # TEST FRONT BACK
+  Test_Back_Front:
+    if: ${{github.event_name == 'pull_request'}}
+    uses: ./.github/workflows/01-1_TestBackFront.yaml
+
+  # QUALITY SONARQUBE
+  Quality_SonarQube:
+    needs: [Test_Back_Front]
+    uses: ./.github/workflows/01-2_SonarQube.yaml
+    secrets: inherit
+
+  # SECURITY SNYK
+  Security_Snyk:
+    needs: [Quality_SonarQube]
+    uses: ./.github/workflows/01-3_Snyk.yaml
+    secrets: inherit
+  
+    
+  #----------------------------------------------------------
+ 
+
+
+
+
+
+
+  #-------------------------------------------
+
+  # Test_Front_Back:
+  #   if: ${{github.event_name == 'pull_request'}}
+  #   uses: ./.github/workflows/01_integration.yaml
+
+  # Quality_Sonar:
+  #   needs: [Test_Front_Back]
+  #   uses: ./.github/workflows/02_Quality.yaml
+  #   secrets: inherit
+
+  # Docker_Image:
+  #   if: ${{github.event_name == 'push'}}
+  #   uses: ./.github/workflows/03_Docker-Ghcr.yaml
+  #   secrets: inherit
+
+  # AzureLog:
+  #   needs: [Docker_Image]
+  #   uses: ./.github/workflows/04-1_Canary.yaml
+  #   secrets: inherit
+  #   permissions:
+  #     id-token: write
+  #     contents: read

@@ -1,0 +1,42 @@
+name: 02-1 - Delivery - Docker GHCR
+
+on:
+  workflow_call:
+    inputs:
+      docker-mode:
+        required: false
+        type: string
+        default: latest
+
+env:
+  REGISTRY: ghcr.io
+  USERNAME: ${{github.actor}}
+  IMAGE_NAME: ${{github.repository}} #orga/repo
+
+jobs:
+  Build-Push-DockerGhcr:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Registry Login
+        uses: docker/login-action@v3
+        with:
+          registry: ${{env.REGISTRY}}
+          username: ${{env.USERNAME}}
+          password: ${{secrets.MONOREPO_PAT}}
+
+      - name: Downcase Image Name
+        run: echo "IMAGE_NAME_LOWER=${GITHUB_REPOSITORY,,}" >> ${GITHUB_ENV}
+
+      - name: Build & Push Monolith Image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: ${{env.REGISTRY}}/${{env.IMAGE_NAME_LOWER}}:${{inputs.docker-mode}}
+
+      - name: Print
+        run: env | sort

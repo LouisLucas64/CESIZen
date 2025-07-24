@@ -1,0 +1,39 @@
+name: 02-2 - Deploy
+
+on:
+  workflow_call
+
+jobs:
+  AzureDeploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Update Compose File
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.AZURE_HOST }}
+          port: ${{ secrets.AZURE_PORT }}
+          username: ${{ secrets.AZURE_USER }}
+          password: ${{ secrets.AZURE_PASSWORD }}
+
+          source: "./docker-compose.yaml"
+          target: "/home/azureuser/"
+          rm: false
+          strip_components: 0
+
+      - name: Start App
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.AZURE_HOST }}
+          port: ${{ secrets.AZURE_PORT }}
+          username: ${{ secrets.AZURE_USER }}
+          password: ${{ secrets.AZURE_PASSWORD }}
+          script: |
+            echo ${{ secrets.MONOREPO_PAT }} | sudo docker login ghcr.io -u LouisLucas64 --password-stdin
+            sudo docker pull ghcr.io/louislucas64/cesizen:latest
+            sudo docker-compose down --remove-orphans
+            sudo docker-compose pull
+            sudo docker-compose up -d --force-recreate
