@@ -5,12 +5,14 @@ using CESIZenModel;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using CESIZenModel.Context;
 using AspNetCoreGeneratedDocument;
+using Microsoft.AspNetCore.Identity;  // Ajout pour PasswordHasher
 
 namespace CESIZenBackOfficeMVC.Controllers
 {
     public class UtilisateurController : Controller
     {
         private readonly NewsDbContext _context;
+        private readonly PasswordHasher<Utilisateur> _passwordHasher = new();
 
         public UtilisateurController(NewsDbContext context)
         {
@@ -22,16 +24,14 @@ namespace CESIZenBackOfficeMVC.Controllers
             var role = HttpContext.Session.GetString("Role");
 
             if (role != "Admin")
-               // return Forbid(); 
-               RedirectToAction("Index", "Home");
+                // return Forbid(); 
+                RedirectToAction("Index", "Home");
 
             var utilisateurs = await _context.Utilisateurs.ToListAsync();
             return View(utilisateurs);
         }
 
-
         public IActionResult CreationCompte() => View();
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -109,10 +109,12 @@ namespace CESIZenBackOfficeMVC.Controllers
 
             utilisateur.Role = "Utilisateur";
 
+            // **hachage du mot de passe**
+            utilisateur.Mdp = _passwordHasher.HashPassword(utilisateur, utilisateur.Mdp);
+
             _context.Add(utilisateur);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index", "Home");
-
         }
 
         public async Task<IActionResult> ModifierCompte(int? id)
@@ -130,11 +132,7 @@ namespace CESIZenBackOfficeMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ModifierCompte(Utilisateur utilisateur)
         {
-
-
             bool champManquant = false;
-
-           
 
             if (string.IsNullOrWhiteSpace(utilisateur.Mail))
             {
@@ -166,9 +164,8 @@ namespace CESIZenBackOfficeMVC.Controllers
                 return View(utilisateur);
             }
 
-
             bool emailExiste = await _context.Utilisateurs
-            .AnyAsync(u => u.Mail == utilisateur.Mail && u.Id != utilisateur.Id);
+                .AnyAsync(u => u.Mail == utilisateur.Mail && u.Id != utilisateur.Id);
             if (emailExiste)
             {
                 ViewData["Message"] = "Cet email est déjà utilisé.";
@@ -182,7 +179,6 @@ namespace CESIZenBackOfficeMVC.Controllers
             if (utilisateurEnBase == null)
                 return NotFound();
 
-            
             utilisateurEnBase.Nom = utilisateur.Nom;
             utilisateurEnBase.Prenom = utilisateur.Prenom;
             utilisateurEnBase.Mail = utilisateur.Mail;
@@ -201,7 +197,7 @@ namespace CESIZenBackOfficeMVC.Controllers
             _context.Utilisateurs.Remove(utilisateur);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("ListeUtilisateurs"); 
+            return RedirectToAction("ListeUtilisateurs");
         }
 
         [HttpGet]
@@ -214,30 +210,29 @@ namespace CESIZenBackOfficeMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Connexion(string Pseudo, string Mdp)
         {
-
             var utilisateur = await _context.Utilisateurs
-                    .FirstOrDefaultAsync(u => u.Pseudo == Pseudo && u.Mdp == Mdp);
+                .FirstOrDefaultAsync(u => u.Pseudo == Pseudo);
 
             if (utilisateur != null)
             {
-                HttpContext.Session.SetInt32("UtilisateurId", utilisateur.Id);
-                HttpContext.Session.SetString("Role", utilisateur.Role);
-                return RedirectToAction("Index", "Home");
+                var result = _passwordHasher.VerifyHashedPassword(utilisateur, utilisateur.Mdp, Mdp);
+                if (result == PasswordVerificationResult.Success)
+                {
+                    HttpContext.Session.SetInt32("UtilisateurId", utilisateur.Id);
+                    HttpContext.Session.SetString("Role", utilisateur.Role);
+                    return RedirectToAction("Index", "Home");
+                }
             }
 
             ViewData["Message"] = "Pseudo ou mot de passe incorrect.";
             return View();
         }
 
-
         public IActionResult Deconnexion()
         {
             HttpContext.Session.Clear();
             return RedirectToAction("Connexion");
         }
-
-
-
 
         public async Task<IActionResult> Compte()
         {
@@ -251,7 +246,6 @@ namespace CESIZenBackOfficeMVC.Controllers
 
             return View(utilisateur);
         }
-
 
         [HttpGet]
         public async Task<IActionResult> ModifierMDP()
@@ -275,7 +269,8 @@ namespace CESIZenBackOfficeMVC.Controllers
             if (utilisateur == null)
                 return NotFound();
 
-            if (ancienMdp != utilisateur.Mdp)
+            var result = _passwordHasher.VerifyHashedPassword(utilisateur, utilisateur.Mdp, ancienMdp);
+            if (result != PasswordVerificationResult.Success)
             {
                 ViewData["Message"] = "Mot de passe actuel incorrect.";
                 return View();
@@ -293,12 +288,11 @@ namespace CESIZenBackOfficeMVC.Controllers
                 return View();
             }
 
-            utilisateur.Mdp = nouveauMdp;
+            utilisateur.Mdp = _passwordHasher.HashPassword(utilisateur, nouveauMdp);
             await _context.SaveChangesAsync();
 
             ViewData["Message"] = "Mot de passe modifié avec succès.";
             return View();
         }
     }
-
 }
